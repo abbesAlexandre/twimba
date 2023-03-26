@@ -1,0 +1,432 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  overflow-x: hidden;
+}
+
+main {
+  min-height: 100%;
+}
+
+main,
+header {
+  width: 320px;
+  margin: 0 auto;
+  border: solid 1px lightgray;
+}
+
+/* typography & icons*/
+
+p {
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+i {
+  font-size: 15px;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+.dot {
+  display: inline-block;
+  height: 2px;
+  width: 2px;
+  margin-bottom: 3px;
+  border-radius: 50%;
+  background-color: rgb(83, 100, 113);
+}
+
+.fa-ellipsis {
+  cursor: pointer;
+}
+
+.fa-ellipsis:hover {
+  color: rgb(29, 155, 240);
+}
+
+/* header */
+
+header > h1 {
+  color: #0f8cdf;
+  margin-bottom: 20px;
+  font-size: 20px;
+  padding-left: 10px;
+}
+
+/* color class */
+
+.twitter-gray {
+  color: rgb(83, 100, 113);
+}
+
+.twitter-blue {
+  color: #0f8cdf;
+}
+/* tweet avatar img*/
+
+.profile-pic {
+  border-radius: 50%;
+  border: solid 1px lightgray;
+  width: 50px;
+}
+
+/* tweet input area*/
+
+.tweet-input-area {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 7px;
+  padding-left: 7px;
+  padding-right: 11px;
+  gap: 10px;
+}
+
+#tweet-input {
+  border: none;
+  resize: none;
+  outline-color: black;
+  height: 60px;
+  line-height: 30px;
+  font-size: 20px;
+  margin: 0 0 20px 0;
+  padding: 10px;
+}
+
+/* tweet button*/
+
+#tweet-btn {
+  display: block;
+  margin:0 auto;
+  border: none;
+  width: 90%;
+  border-radius: 20px;
+  height: 40px;
+  color: white;
+  background-color: #1da1f2;
+  font-size: 20px;
+  padding: 10 19px;
+  font-weight: 600;
+  cursor: pointer;
+
+}
+
+/* tweet feed*/
+
+.tweet-feed {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+/* tweet container*/
+
+.tweet-container {
+  display: flex;
+  flex-direction: column;
+  border-top: solid 1px lightgray;
+  border-bottom: solid 1px lightgray;
+  padding-top: 7px;
+  padding-left: 7px;
+  padding-right: 11px;
+}
+
+.tweet-container > p {
+  padding-left: 7px;
+}
+
+/* tweet header*/
+
+.tweet-header {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.title-content {
+  display: flex;
+  justify-content: space-between;
+  width: 98%;
+}
+
+.title-content > p,
+i {
+  margin-bottom: 0;
+  margin-top: 5px;
+}
+
+.tweet-title {
+  width: 100%;
+  padding-top: 7px;
+}
+
+.avatar-account {
+  margin-top: 0;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+/* tweet-message */
+
+.tweet-message {
+  margin-bottom: 0px;
+  padding-left: 7px;
+}
+
+/* tweet-count */
+
+.tweet-count {
+  display: flex;
+  gap: 20px;
+  border-top: solid 1px lightgray;
+  border-bottom: solid 1px lightgray;
+}
+
+.tweet-count > p {
+  font-size: 12px;
+  padding-left: 7px;
+}
+
+/* tweet footer */
+
+.tweet-footer {
+  width: 75%;
+  margin: auto;
+  padding: 9px 0 9px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* tweet your reply */
+
+.your-reply-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 5px;
+  padding-top: 10px;
+  border-top: solid 1px lightgray;
+  border-bottom: solid 1px lightgray;
+}
+
+.your-reply-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  gap: 20px;
+}
+
+.your-reply {
+  border: none;
+  resize: none;
+  outline-style: none;
+  width: 140px;
+  height: 60px;
+  font-size: 16px;
+  padding-top: 20px;
+}
+
+#reply-btn {
+  border: none;
+  width: 80px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  margin-bottom: 5px;
+  border-radius: 20px;
+  background-color: rgb(29, 155, 240);
+  color: white;
+  font-weight: 600;
+}
+
+/* tweets replies */
+
+.tweets-reply-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding-left: 7px;
+  padding-right: 11px;
+}
+
+.tweets-reply-container:hover {
+  background-color: rgba(0, 0, 0, 0.041);
+}
+
+.avatar-reply-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-top: 0;
+}
+
+/* tweet pipes*/
+
+.pipe {
+  color: gray;
+  border: solid 1px gray;
+  height: 100%;
+}
+
+.top-pipe {
+  color: gray;
+  border: solid 1px gray;
+  height: 10%;
+}
+
+.top-pipe-end-reply {
+  color: gray;
+  border: solid 1px gray;
+  height: 4%;
+}
+
+/* tweet reply footer */
+
+.tweet-footer-reply {
+  display: flex;
+  align-items: center;
+  gap: 65px;
+  padding-bottom: 9px;
+}
+
+/* filler */
+
+.space {
+  height: 10%;
+}
+
+/* media query */
+
+@media only screen and (min-width: 375px) {
+  main,
+  header {
+    width: 375px;
+  }
+  .your-reply-container{
+    gap: 15px;
+  }
+  .your-reply-input{
+    gap: 50px;
+  }
+  .your-reply{
+    font-size: 18px;
+    padding-top: 15px;
+  }
+  p{
+    font-size: 15px;
+    letter-spacing: 1px;
+  }
+}
+
+@media only screen and (min-width: 425px) {
+  main,
+  header {
+    width: 425px;
+  }
+  .your-reply-container{
+    gap: 15px;
+  }
+  .your-reply-input{
+    gap: 100px;
+  }
+  .your-reply{
+    font-size: 18px;
+    padding-top: 15px;
+  }
+  p{
+    font-size: 15px;
+    letter-spacing: 1px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  main,
+  header {
+    width: 425px;
+  }
+  .your-reply-container{
+    gap: 15px;
+    height: 70px;
+  }
+  .your-reply-input{
+    gap: 50px;
+  }
+  .your-reply{
+    font-size: 18px;
+    padding-top: 15px;
+    width: 200px;
+  }
+  p{
+    font-size: 15px;
+    letter-spacing: 1px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  main,
+  header {
+    width: 500px;
+  }
+
+  #tweet-input{
+    font-size: 40px;
+    padding-top: 25px;
+    height: 150px;
+  }
+
+  .your-reply-container{
+    gap: 15px;
+  }
+  .your-reply-input{
+    gap: 100px;
+  }
+  .your-reply{
+    font-size: 18px;
+    padding-top: 15px;
+  }
+  p,i{
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+  .tweet-count > p{
+    font-size: 20px;
+  }
+  #tweet-btn,#reply-btn{
+    font-size: 30px;
+  }
+  #tweet-btn{
+    padding-bottom: 45px;
+  }
+
+  .your-reply-container{
+    height: 100px;
+    display:flex;
+    align-items: center;
+  }
+  .your-reply-input{
+    gap: 20px;
+  }
+  .your-reply{
+    font-size:25px;
+    width: 250px;
+    padding-top: 10px;
+  }
+  #reply-btn{
+    padding: 10px;
+    width: 120px;
+  }
+  .profile-pic{
+    width: 70px;
+    height:70px;
+  }
+}

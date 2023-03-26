@@ -1,0 +1,214 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="index.css" />
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet" />
+  <title>Twimba !</title>
+</head>
+
+<body>
+  <header>
+    <h1>Twimba</h1>
+  </header>
+  <main>
+    <div class="tweet-input-area">
+      <img src="images/scrimbalogo.png" class="profile-pic">
+      <textarea placeholder="What's happening?" id="tweet-input"></textarea>
+    </div>
+    <button id="tweet-btn">Tweet</button>
+
+    <div class="tweet-feed">
+
+      <div class="tweet-container">
+
+        <div class="tweet-header">
+          <img src="images/musk.png" class="profile-pic">
+          <div class="tweet-title">
+            <div class="title-content">
+              <p>Elon Musk</p>
+              <a href="#" class="twitter-gray">
+                <i class="fa-solid fa-ellipsis"></i>
+              </a>
+            </div>
+            <p class="avatar-account twitter-gray">
+              <small>@Elon</small>
+            </p>
+          </div>
+        </div>
+
+        <p class="tweet-message">I need volunteers for a one-way mission to Mars 🪐. No experience necessary🚀</p>
+
+        <p class="twitter-gray">3:47 AM <span class="dot"></span> Feb 9,2023</p>
+
+        <div class="tweet-count">
+          <p>6 retweets</p>
+          <p>80 likes</p>
+        </div>
+
+        <div class="tweet-footer twitter-gray">
+          <i class="fa-regular fa-comment-dots"></i>
+          <i class="fa-solid fa-heart"></i>
+          <i class="fa-solid fa-retweet"></i>
+          <i class="fa-solid fa-trash-can"></i>
+        </div>
+
+      </div>
+
+      <div class="your-reply-container">
+        <img src="images/scrimbalogo.png" class="profile-pic">
+        <div class="your-reply-input">
+          <textarea placeholder="Tweet your reply" class="your-reply"></textarea>
+          <button id="reply-btn">Reply</button>
+        </div>
+      </div>
+
+      <div class="tweets-reply-container">
+
+        <div class="avatar-reply-container">
+          <span class="space"></span>
+          <img src="images/tcruise.png" class="profile-pic">
+          <span class="pipe"></span>
+        </div>
+
+        <div class="tweet-title">
+          <div class="title-content">
+            <p>
+              Tom Cruise
+              <span class="avatar-account twitter-gray">@T.Cruise</span>
+              <span class="dot"></span>
+              <span class="twitter-gray">21 Febr</span>
+            </p>
+            <a href="#" class="twitter-gray">
+              <i class="fa-solid fa-ellipsis"></i>
+            </a>
+          </div>
+          <p class="avatar-account twitter-gray">
+            Replying to <a href="#" class="twitter-blue">@Elon</a>
+          </p>
+
+          <p class="reply-tweet-message">Yes! Sign me up! 😎</p>
+          <div class="tweet-footer-reply twitter-gray">
+            <i class="fa-regular fa-comment-dots"></i>
+            <i class="fa-solid fa-heart"></i>
+            <i class="fa-solid fa-retweet"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="tweets-reply-container">
+
+        <div class="avatar-reply-container">
+          <span class="top-pipe"></span>
+          <img src="images/troll.jpg" class="profile-pic">
+          <span class="pipe"></span>
+        </div>
+
+        <div class="tweet-title">
+          <div class="title-content">
+            <p>
+              The blonde
+              <span class="avatar-account twitter-gray">@ElBlonde</span>
+              <span class="dot"></span>
+              <span class="twitter-gray">21 Febr</span>
+            </p>
+            <a href="#" class="twitter-gray">
+              <i class="fa-solid fa-ellipsis"></i>
+            </a>
+          </div>
+          <p class="avatar-account twitter-gray">
+            Replying to <a href="#" class="twitter-blue">@T.Cruise</a>
+          </p>
+
+          <p class="reply-tweet-message">Tom i'am your most retarded fan !!</p>
+          <div class="tweet-footer-reply twitter-gray">
+            <i class="fa-regular fa-comment-dots"></i>
+            <i class="fa-solid fa-heart"></i>
+            <i class="fa-solid fa-retweet"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="tweets-reply-container">
+
+        <div class="avatar-reply-container">
+          <span class="top-pipe-end-reply"></span>
+          <img src="images/overflow.png" class="profile-pic">
+        </div>
+
+        <div class="tweet-title">
+          <div class="title-content">
+            <p>
+              TheStack
+              <span class="avatar-account twitter-gray">@StackOverflower</span>
+              <span class="dot"></span>
+              <span class="twitter-gray">21 Febr</span>
+            </p>
+            <a href="#" class="twitter-gray">
+              <i class="fa-solid fa-ellipsis"></i>
+            </a>
+          </div>
+          <p class="avatar-account twitter-gray">
+            Replying to <a href="#" class="twitter-blue">@ElBlonde</a>
+          </p>
+
+          <p class="reply-tweet-message">Damn groupies they will never stop shall we burn them all ? 😎</p>
+          <div class="tweet-footer-reply twitter-gray">
+            <i class="fa-regular fa-comment-dots"></i>
+            <i class="fa-solid fa-heart"></i>
+            <i class="fa-solid fa-retweet"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="tweet-container">
+
+        <div class="tweet-header">
+          <img src="images/scrimbalogo.png" class="profile-pic">
+          <div class="tweet-title">
+            <div class="title-content">
+              <p>Elon Musk</p>
+              <a href="#" class="twitter-gray">
+                <i class="fa-solid fa-ellipsis"></i>
+              </a>
+            </div>
+            <p class="avatar-account twitter-gray">
+              <small>@Elon</small>
+            </p>
+          </div>
+        </div>
+
+        <p class="tweet-message">I need volunteers for a one-way mission to Mars 🪐. No experience necessary🚀</p>
+
+        <p class="twitter-gray">3:47 AM <span class="dot"></span> Feb 9,2023</p>
+
+        <div class="tweet-count">
+          <p>6 retweets</p>
+          <p>80 likes</p>
+        </div>
+
+        <div class="tweet-footer twitter-gray">
+          <i class="fa-regular fa-comment-dots"></i>
+          <i class="fa-solid fa-heart"></i>
+          <i class="fa-solid fa-retweet"></i>
+          <i class="fa-solid fa-trash-can"></i>
+        </div>
+
+      </div>
+    </div>
+
+
+  </main>
+  <script src="index.js" type="module"></script>
+</body>
+
+</html>
