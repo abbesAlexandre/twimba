@@ -50,15 +50,6 @@ a {
   color: rgb(29, 155, 240);
 }
 
-/* header */
-
-header > h1 {
-  color: #0f8cdf;
-  margin-bottom: 20px;
-  font-size: 20px;
-  padding-left: 10px;
-}
-
 /* color class */
 
 .twitter-gray {
@@ -68,6 +59,16 @@ header > h1 {
 .twitter-blue {
   color: #0f8cdf;
 }
+
+/* header */
+
+header > h1 {
+  color: #0f8cdf;
+  margin-bottom: 20px;
+  font-size: 20px;
+  padding-left: 10px;
+}
+
 /* tweet avatar img*/
 
 .profile-pic {
@@ -122,6 +123,7 @@ header > h1 {
   display: flex;
   flex-direction: column;
   margin-top: 20px;
+  position:relative;
 }
 
 /* tweet container*/
@@ -305,6 +307,44 @@ i {
   height: 10%;
 }
 
+/* menu */
+
+.modal{
+  width: 150px;
+  height: 115px;
+  background-color: rgba(255,255,255,1.00);
+  border:solid 1px lightgray;
+  border-radius: 12px;
+  box-shadow: rgba(101, 119, 134, 0.2) 0px 0px 15px, rgba(101, 119, 134, 0.15) 0px 0px 3px 1px;
+  z-index: 100;
+  position:fixed;
+  display:none;
+}
+
+.show{
+  display:block;
+}
+
+.menu{
+  padding:0;
+  margin:0;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu > li{
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding: 10px;
+  font-weight: 500;
+}
+
+.menu > li:hover{
+  background-color: rgba(0, 0, 0, 0.041);
+  cursor:pointer;
+}
+
 /* media query */
 
 @media only screen and (min-width: 375px) {
@@ -378,10 +418,15 @@ i {
     width: 500px;
   }
 
+  header > h1{
+    font-size: 30px;
+  }
+
   #tweet-input{
-    font-size: 40px;
+    font-size: 20px;
     padding-top: 25px;
-    height: 150px;
+    height: 100px;
+    width: 80%;
   }
 
   .your-reply-container{
@@ -395,17 +440,17 @@ i {
     padding-top: 15px;
   }
   p,i{
-    font-size: 20px;
+    font-size: 17px;
     letter-spacing: 1px;
   }
   .tweet-count > p{
-    font-size: 20px;
+    font-size: 15px;
   }
   #tweet-btn,#reply-btn{
-    font-size: 30px;
+    font-size: 20px;
   }
   #tweet-btn{
-    padding-bottom: 45px;
+    padding-bottom: 35px;
   }
 
   .your-reply-container{
@@ -428,5 +473,8 @@ i {
   .profile-pic{
     width: 70px;
     height:70px;
+  }
+  .modal{
+    width: 10%;
   }
 }
