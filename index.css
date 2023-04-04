@@ -14,12 +14,40 @@ main,
 header {
   width: 320px;
   margin: 0 auto;
+}
+
+button {
+  color: white;
+}
+
+/* border */
+
+main,
+header,
+.profile-pic,
+.modal,
+.your-reply-container,
+.delete-modal {
   border: solid 1px rgba(211, 211, 211, 0.219);
 }
 
 /* typography & icons*/
-button{
-  cursor:pointer;
+
+button,
+i,
+li {
+  cursor: pointer;
+}
+
+h1,
+#tweet-input,
+#tweet-btn {
+  font-size: 20px;
+}
+
+#tweet-btn,
+#reply-btn {
+  font-weight: 600;
 }
 
 p {
@@ -29,7 +57,6 @@ p {
 
 i {
   font-size: 15px;
-  cursor: pointer;
 }
 
 a {
@@ -45,12 +72,14 @@ a {
   background-color: rgb(83, 100, 113);
 }
 
-.fa-ellipsis {
-  cursor: pointer;
-}
-
 .fa-ellipsis:hover {
   color: rgb(29, 155, 240);
+}
+
+/* filler */
+
+.space {
+  height: 10%;
 }
 
 /* color class */
@@ -59,12 +88,49 @@ a {
   color: rgb(83, 100, 113);
 }
 
+.twitter-red {
+  color: red;
+}
+
+.twitter-limegreen {
+  color: limegreen;
+}
+
 .smoke-background {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
 .twitter-blue {
-  color: #0f8cdf;
+  color: rgb(29, 155, 240);
+}
+
+.twitter-background-blue {
+  background-color: rgb(29, 155, 240);
+}
+
+/* reused spacing property */
+
+.tweet-input-area,
+.tweet-container,
+.tweet-message,
+.reply-container,
+.tweets-reply-container,
+.tweet-container > p,
+.tweet-count > p {
+  padding-left: 7px;
+}
+
+.tweet-input-area,
+.tweet-container,
+.tweets-reply-container > .tweet-title {
+  padding-top: 7px;
+}
+
+.tweet-input-area,
+.tweet-container,
+.reply-container,
+.tweets-reply-container {
+  padding-right: 11px;
 }
 
 /* header */
@@ -72,7 +138,6 @@ a {
 header > h1 {
   color: #0f8cdf;
   margin-bottom: 20px;
-  font-size: 20px;
   padding-left: 10px;
 }
 
@@ -80,7 +145,6 @@ header > h1 {
 
 .profile-pic {
   border-radius: 50%;
-  border: solid 1px rgba(211, 211, 211, 0.219);
   width: 50px;
 }
 
@@ -89,9 +153,6 @@ header > h1 {
 .tweet-input-area {
   display: flex;
   align-items: flex-start;
-  padding-top: 7px;
-  padding-left: 7px;
-  padding-right: 11px;
   gap: 10px;
 }
 
@@ -101,7 +162,6 @@ header > h1 {
   outline-color: black;
   height: 60px;
   line-height: 30px;
-  font-size: 20px;
   margin: 0 0 20px 0;
   padding: 10px;
 }
@@ -115,12 +175,7 @@ header > h1 {
   width: 90%;
   border-radius: 20px;
   height: 40px;
-  color: white;
-  background-color: #1da1f2;
-  font-size: 20px;
   padding: 10 19px;
-  font-weight: 600;
-  cursor: pointer;
 }
 
 /* tweet feed*/
@@ -139,13 +194,6 @@ header > h1 {
   flex-direction: column;
   border-top: solid 1px rgba(211, 211, 211, 0.219);
   border-bottom: solid 1px rgba(211, 211, 211, 0.219);
-  padding-top: 7px;
-  padding-left: 7px;
-  padding-right: 11px;
-}
-
-.tweet-container > p {
-  padding-left: 7px;
 }
 
 /* tweet header*/
@@ -171,7 +219,6 @@ i {
 
 .tweet-title {
   width: 100%;
-  padding-top: 7px;
 }
 
 .avatar-account {
@@ -184,7 +231,6 @@ i {
 
 .tweet-message {
   margin-bottom: 0px;
-  padding-left: 7px;
 }
 
 /* tweet-count */
@@ -198,7 +244,6 @@ i {
 
 .tweet-count > p {
   font-size: 12px;
-  padding-left: 7px;
 }
 
 /* tweet footer */
@@ -212,85 +257,20 @@ i {
   justify-content: space-between;
 }
 
-/* tweet your reply */
-
-.your-reply-container {
-  display: none;
-  position: fixed;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  background-color: rgba(255, 255, 255, 1);
-}
-
-.close {
-  padding: 25px;
-  width: 5px;
-}
-
-.reply-container {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: row;
-  gap: 10px;
-  padding-left: 7px;
-  padding-right: 11px;
-}
-
-.reply-avatar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-  gap: 2px;
-}
-
-.your-reply {
-  border: none;
-  resize: none;
-  outline-style: none;
-  width: 95%;
-  height: 100px;
-  font-size: 16px;
-  padding-top: 25px;
-}
-
-.reply-btn-container {
-  display: flex;
-  flex-direction: row-reverse;
-  padding-right: 15px;
-}
-
-#reply-btn {
-  border: none;
-  width: 80px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  cursor: pointer;
-  font-size: 15px;
-  margin-bottom: 5px;
-  border-radius: 20px;
-  background-color: rgb(29, 155, 240);
-  color: white;
-  font-weight: 600;
-}
-
-.show-flex {
-  display: flex !important;
-}
 /* tweets replies */
 
 .tweets-reply-container {
   display: flex;
   flex-direction: row;
   gap: 10px;
-  padding-left: 7px;
-  padding-right: 11px;
 }
 
 .tweets-reply-container:hover {
   background-color: rgba(0, 0, 0, 0.041);
+}
+
+.tweets-reply-container > .tweet-title > .title-content > .twitter-gray {
+  margin-top: 0;
 }
 
 .avatar-reply-container {
@@ -299,6 +279,15 @@ i {
   align-items: center;
   gap: 2px;
   margin-top: 0;
+}
+
+/* tweet reply footer */
+
+.tweet-footer-reply {
+  display: flex;
+  align-items: center;
+  gap: 65px;
+  padding-bottom: 9px;
 }
 
 /* tweet pipes*/
@@ -321,38 +310,18 @@ i {
   height: 4%;
 }
 
-/* tweet reply footer */
-
-.tweet-footer-reply {
-  display: flex;
-  align-items: center;
-  gap: 65px;
-  padding-bottom: 9px;
-}
-
-/* filler */
-
-.space {
-  height: 10%;
-}
-
-/* menu */
+/* menu modal */
 
 .modal {
   width: 150px;
   height: 115px;
   background-color: rgba(255, 255, 255, 1);
-  border: solid 1px rgba(211, 211, 211, 0.219);
   border-radius: 12px;
   box-shadow: rgba(101, 119, 134, 0.2) 0px 0px 15px,
     rgba(101, 119, 134, 0.15) 0px 0px 3px 1px;
   z-index: 100;
   position: fixed;
   display: none;
-}
-
-.show {
-  display: block !important;
 }
 
 .menu {
@@ -375,15 +344,83 @@ i {
   cursor: pointer;
 }
 
+.show {
+  display: block !important;
+}
+
+/* tweet modal reply*/
+
+.your-reply-container {
+  display: none;
+  position: fixed;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.close {
+  padding: 25px;
+  width: 5px;
+}
+
+.reply-container {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.reply-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  gap: 2px;
+}
+
+.your-reply {
+  border: none;
+  resize: none;
+  outline-style: none;
+  width: 95%;
+  height: 100px;
+  font-size: 13px;
+  letter-spacing: 1px;
+  padding-top: 25px;
+}
+
+.reply-btn-container {
+  display: flex;
+  flex-direction: row-reverse;
+  padding-right: 15px;
+}
+
+#reply-btn {
+  border: none;
+  width: 80px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 15px;
+  margin-bottom: 5px;
+  border-radius: 20px;
+}
+
+.show-flex {
+  display: flex !important;
+}
+
+/* delete moda */
+
 .delete-modal {
   display: none;
-  position: absolute;
+  position: fixed;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 102;
   background-color: rgba(255, 255, 255, 1);
-  width: 50%;
-  border: solid 1px rgba(211, 211, 211, 0.219);
+  width: 160px;
   padding: 15px;
   border-radius: 7px;
 }
@@ -404,8 +441,6 @@ i {
   border: none;
   border-radius: 10px;
   padding: 5px;
-  background-color: rgb(29, 155, 240);
-  color: white;
 }
 
 /* media query */
@@ -419,12 +454,14 @@ i {
     gap: 50px;
   }
   .your-reply {
-    font-size: 18px;
+    font-size: 15px;
     padding-top: 15px;
   }
   p {
     font-size: 15px;
-    letter-spacing: 1px;
+  }
+  .delete-modal {
+    width: 180px;
   }
 }
 
@@ -433,14 +470,11 @@ i {
   header {
     width: 425px;
   }
-
   .your-reply {
-    font-size: 18px;
     padding-top: 25px;
   }
-  p {
-    font-size: 18px;
-    letter-spacing: 1px;
+  .delete-modal {
+    width: 200px;
   }
   .delete-modal > h4 {
     margin: 0px 15px;
@@ -450,7 +484,6 @@ i {
 @media only screen and (min-width: 768px) {
   .your-reply-container {
     width: 400px;
-    border: solid 1px rgba(211, 211, 211, 0.219);
     height: 350px;
     border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0.041);
@@ -471,10 +504,6 @@ i {
     font-size: 18px;
     padding-top: 30px;
   }
-  p {
-    font-size: 15px;
-    letter-spacing: 1px;
-  }
 }
 
 @media only screen and (min-width: 1440px) {
@@ -486,20 +515,17 @@ i {
   header > h1 {
     font-size: 30px;
   }
-
-  .your-reply-container {
-    width: 600px;
-  }
   .your-reply {
     padding-top: 40px;
     width: 70%;
   }
+
   #tweet-input {
-    font-size: 20px;
     padding-top: 25px;
     height: 100px;
     width: 80%;
   }
+
   p,
   i {
     font-size: 17px;
@@ -508,7 +534,7 @@ i {
   .tweet-count > p {
     font-size: 15px;
   }
-  #tweet-btn,
+
   #reply-btn {
     font-size: 20px;
   }
@@ -522,7 +548,10 @@ i {
   .modal {
     width: 10%;
   }
+  .delete-modal {
+    width: 240px;
+  }
   .delete-modal > h4 {
-    margin: 0px 40px;
+    font-size: 20px;
   }
 }
