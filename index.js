@@ -1,20 +1,154 @@
-import { tweetsData } from "/data.js";
+import { v4 as uuidv4 } from "https://jspm.dev/uuid";
+import { getFeedHtml } from "/libraries/feed.js";
+import {
+  getTweetObject,
+  getTweetRepliesObject,
+} from "/libraries/TweetObject.js";
+import {
+  deleteTweet,
+  editTweet,
+  replyTweet,
+  toggleBtn,
+  setLikeReply,
+} from "/libraries/tweetFeature.js";
+import { renderModal, removeModal } from "/libraries/modals.js";
+import {
+  getLocalStorageData,
+  initLocalStorage,
+  setLocalStorage,
+} from "./libraries/localStorage.js";
 
-const deleteModal = document.getElementsByClassName("delete-modal")[0];
-const modal = document.getElementsByClassName("modal")[0];
-const reply = document.getElementsByClassName("your-reply-container")[0];
-const yourReply = document.getElementsByClassName("your-reply")[0];
-const replyBtn = document.getElementById("reply-btn");
+//localStorage.clear();
+initLocalStorage();
+
+
 const myBody = document.body;
 const myHtml = document.getElementsByTagName("html")[0];
+const tweetBtn = document.getElementById("tweet-btn");
+const tweetInput = document.getElementById("tweet-input");
+const tweetFeed = document.getElementsByClassName("tweet-feed")[0];
+let tweetUuid = "";
+let isItReply = false;
+
+document.addEventListener("keyup", function (e) {
+  switch (e.target.id) {
+    case "tweet-input": // enabling/disabling the tweet button
+      toggleBtn(tweetBtn, tweetInput.value != "");
+      break;
+
+    case "tweet-reply": // enabling/disabling the reply btn
+      toggleBtn(
+        document.getElementById("reply-btn"),
+        document.getElementById("tweet-reply").value != ""
+      );
+      break;
+
+    case "message": // enabling/disabling the edit btn
+      const editBtn = document.getElementById("edit-btn");
+      const message = document.getElementsByClassName("message")[0];
+      let targetTweetObj = "";
+      let myData = getLocalStorageData();
+      if (editBtn.dataset.isReply === "true") {
+        targetTweetObj = getTweetRepliesObject(editBtn.dataset.uuid, myData);
+      } else {
+        targetTweetObj = getTweetObject(editBtn.dataset.uuid, myData);
+      }
+
+      toggleBtn(editBtn, message.innerText != targetTweetObj.tweetText);
+      break;
+  }
+});
 
 document.addEventListener("click", function (e) {
-  // showing tweet reply
+  switch (e.target.id) {
+    case "edit-btn": // editing a tweet
+      editTweet(tweetUuid, isItReply);
+      render();
+      myBody.classList.remove("smoke-background");
+      myHtml.style.overflow = "scroll";
+      break;
+
+    case "reply-btn": // adding a reply to a tweet
+      replyTweet(
+        tweetUuid,
+        document.getElementById("tweet-reply").value,
+        e.target.dataset.isReply
+      );
+      render();
+      myBody.classList.remove("smoke-background");
+      myHtml.style.overflow = "scroll";
+      break;
+
+    case "tweet-btn": // adding a new tweet
+      if (e.target.disabled === false) {
+        const date = new Date();
+        let message = tweetInput.value;
+        let myDate =
+          date.toLocaleString("en-GB", { month: "short" }) +
+          " " +
+          date.getDate() +
+          ", " +
+          date.toLocaleString("en-GB", { year: "numeric" });
+        let myHour = date
+          .toLocaleString("en-GB", {
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+          })
+          .toUpperCase();
+
+        let newTweetObject = {
+          handle: "@scrimba",
+          username: "Scrimba",
+          profilePic: `images/scrimbalogo.png`,
+          likes: 0,
+          retweets: 0,
+          tweetText: message,
+          replies: [],
+          isReply: false,
+          isLiked: false,
+          isRetweeted: false,
+          uuid: uuidv4(),
+          date: myHour + " " + myDate,
+        };
+        let myData = getLocalStorageData();
+        myData.unshift(newTweetObject);
+        setLocalStorage(myData);
+        render();
+        tweetInput.value = "";
+        tweetBtn.disabled = true;
+        tweetBtn.classList.remove("twitter-background-blue");
+      }
+      break;
+
+    case "yes": // complete delete tweet modal
+      let yesBtn = document.getElementById("yes");
+      if (yesBtn.dataset.tweetUuid != "") {
+        deleteTweet(yesBtn.dataset.tweetUuid, yesBtn.dataset.isReply);
+        render();
+      }
+      myHtml.style.overflow = "scroll";
+      break;
+
+    case "no": // close delete tweet modal
+      removeModal("delete-modal");
+      break;
+  }
 
   /** opening three dot menu */
+
   let rect = e.target.getBoundingClientRect();
+
   if (e.target.classList.contains("tweet-menu")) {
-    modal.classList.toggle("show");
+    tweetUuid = e.target.dataset.menu;
+    isItReply = e.target.dataset.isReply;
+    // render menu modal
+    renderModal("modal", tweetUuid, isItReply);
+
+    // targeting modal after render
+    const modal = document.getElementsByClassName("modal")[0];
+
+   
     myHtml.style.overflow = "hidden";
 
     /** setting position depending of the screen width */
@@ -31,9 +165,10 @@ document.addEventListener("click", function (e) {
       modal.style.top = rect.top + "px";
     }
     /** closing three dot menu if click outside box */
-  } else if (!e.target.parentNode.classList.contains("menu")) {
-    modal.classList.remove("show");
-    myHtml.style.overflow = "scroll";
+  } else if (document.getElementsByClassName("modal")[0]) {
+    if (!e.target.parentNode.classList.contains("menu")) {
+      removeModal("modal");
+    }
   }
 
   /** opening reply/edit modal  */
@@ -42,318 +177,60 @@ document.addEventListener("click", function (e) {
     e.target.classList.contains("reply") ||
     e.target.classList.contains("edit")
   ) {
-    reply.classList.toggle("show-flex");
-    modal.classList.remove("show");
+    tweetUuid = e.target.dataset.menu;
+    isItReply = e.target.dataset.isReply;
+    removeModal("modal");
     myBody.classList.toggle("smoke-background");
     myHtml.style.overflow = "hidden";
     if (e.target.classList.contains("edit")) {
-      replyBtn.innerText = "Save";
-      yourReply.innerText = "There was once opon a time a mad dev";
+      renderModal("edit", tweetUuid, isItReply);
+    } else {
+      renderModal("reply", tweetUuid, isItReply);
     }
+  }
+
+  if (e.target.classList.contains("fa-comment-dots")) {
+    tweetUuid = e.target.dataset.comment;
+    isItReply = e.target.dataset.isReply;
+    renderModal("reply", tweetUuid, isItReply);
   }
 
   /** Closing reply/edit modal */
 
   if (e.target.classList.contains("close")) {
-    reply.classList.remove("show-flex");
+    removeModal("edit-modal");
     myBody.classList.remove("smoke-background");
     myHtml.style.overflow = "scroll";
-    replyBtn.innerText = "Reply";
-    yourReply.innerText = "";
   }
 
   /** opening delete modal */
   if (e.target.classList.contains("delete")) {
-    deleteModal.classList.toggle("show");
+    removeModal("modal");
+    renderModal(
+      "delete-modal",
+      e.target.dataset.menu,
+      e.target.dataset.isReply
+    );
+    const deleteModal = document.getElementsByClassName("delete-modal")[0];
     deleteModal.style.top = rect.top - 50 + "px";
-    modal.classList.remove("show");
     myHtml.style.overflow = "hidden";
-  }
-
-  /** close/complete delete tweet modal */
-  if (e.target.id === "yes") {
-    console.log("we will delete here");
-  }
-  if (e.target.id === "no") {
-    deleteModal.classList.remove("show");
   }
 
   /* like button */
   if (e.target.classList.contains("fa-heart")) {
-    e.target.classList.toggle("twitter-red");
+    setLikeReply(e.target.dataset.like, e.target.dataset.isReply, "like");
   }
   /* retweet button */
   if (e.target.classList.contains("fa-retweet")) {
-    e.target.classList.toggle("twitter-limegreen");
+    setLikeReply(e.target.dataset.retweet, e.target.dataset.isReply, "retweet");
   }
 });
-
-replyBtn.addEventListener("click", function (e) {
-  if (e.target.innerText === "Save") {
-    alert("test ok");
-  }
-  if (e.target.innerText === "Reply") {
-    alert("test ok");
-  }
-});
-
-function setDotBetweenDate(tweetDate) {
-  let dot = document.createElement("span");
-  dot.classList.add("dot");
-
-  return `${tweetDate.substring(
-    0,
-    8
-  )} <span class="dot"></span> ${tweetDate.substring(8)}`;
-}
 
 /* rendering data */
 
-function getFeedHtml() {
-  let feedData = [];
-  for (let tweet of tweetsData) {
-    // tweet
-    let tweetContainer = document.createElement("div");
-    tweetContainer.classList.add("tweet-container");
-
-    // tweet header
-    let tweetHeader = document.createElement("div");
-    tweetHeader.classList.add("tweet-header");
-
-    let tweetProfilePic = document.createElement("img");
-    tweetProfilePic.classList.add("profile-pic");
-    tweetProfilePic.src = tweet.profilePic;
-    tweetProfilePic.alt = "tweet avatar picture";
-
-    // container of title
-    let tweetTitle = document.createElement("div");
-    tweetTitle.classList.add("tweet-title");
-
-    // start of title content
-    let titleContent = document.createElement("div");
-    titleContent.classList.add("title-content");
-
-    let tweetUsername = document.createElement("p");
-    tweetUsername.innerText = tweet.username;
-
-    let tweetMenu = document.createElement("i");
-    tweetMenu.dataset.dataMenu= tweet.uuid;
-    tweetMenu.classList.add("fa-solid", "fa-ellipsis", "tweet-menu");
-
-    titleContent.append(tweetUsername, tweetMenu);
-
-    // end of titleContent
-
-    let tweetUserAccount = document.createElement("p");
-    tweetUserAccount.classList.add("avatar-account", "twitter-gray");
-
-    let UserAccountSmall = document.createElement("small");
-    UserAccountSmall.innerHTML = tweet.handle;
-
-    tweetUserAccount.append(UserAccountSmall);
-    tweetTitle.append(titleContent, tweetUserAccount);
-    tweetHeader.append(tweetProfilePic, tweetTitle);
-
-    // tweet message + date
-
-    let tweetMessage = document.createElement("p");
-    tweetMessage.classList.add("tweet-message");
-    tweetMessage.innerText = tweet.tweetText;
-
-    let tweetDate = document.createElement("p");
-    tweetDate.classList.add("twitter-gray");
-    tweetDate.innerHTML = setDotBetweenDate(tweet.date);
-
-    // tweet retweet & like
-
-    let tweetCount = document.createElement("tweet-count");
-    tweetCount.classList.add("tweet-count");
-
-    let tweetRetweets = document.createElement("p");
-    tweetRetweets.innerText = tweet.retweets + " retweets";
-
-    let tweetLikes = document.createElement("p");
-    tweetLikes.innerText = tweet.likes + " likes";
-
-    let tweetReply = document.createElement("p");
-    tweetReply.innerText = tweet.replies.length + " Reply";
-
-    tweetCount.append(tweetRetweets, tweetLikes, tweetReply);
-
-    // end retweet & like
-    // start of tweet footer
-
-    let tweetFooter = document.createElement("div");
-    tweetFooter.classList.add("tweet-footer", "twitter-gray");
-
-    let tweetCommentIcon = document.createElement("i");
-    tweetCommentIcon.classList.add("fa-regular", "fa-comment-dots");
-    tweetCommentIcon.dataset.dataComment = tweet.uuid;
-
-    let tweetLikeIcon = document.createElement("i");
-    tweetLikeIcon.classList.add("fa-solid", "fa-heart");
-    tweetLikeIcon.dataset.dataLike = tweet.uuid;
-
-    let tweetRetweetIcon = document.createElement("i");
-    tweetRetweetIcon.classList.add("fa-solid", "fa-retweet");
-    tweetRetweetIcon.dataset.dataRetweet = tweet.uuid;
-
-    let tweetDeleteIcon = document.createElement("i");
-    tweetDeleteIcon.classList.add("fa-solid", "fa-trash-can", "delete");
-    tweetDeleteIcon.dataset.dataDelete = tweet.uuid;
-
-    tweetFooter.append(
-      tweetCommentIcon,
-      tweetLikeIcon,
-      tweetRetweetIcon,
-      tweetDeleteIcon
-    );
-    //end of tweet footer
-    tweetContainer.append(
-      tweetHeader,
-      tweetMessage,
-      tweetDate,
-      tweetCount,
-      tweetFooter
-    );
-    // end of tweet
-
-    feedData.push(tweetContainer);
-    feedData.push(...getTweetReplies(tweet));
-  }
-  return feedData;
-}
-
-// return array of object
-function getTweetReplies(tweet) {
-  let repliesArray = [];
-  if (tweet.replies.length > 0) {
-    for (let reply of tweet.replies) {
-      // start of reply container
-      let tweetsReplyContainer = document.createElement("div");
-      tweetsReplyContainer.classList.add("tweets-reply-container");
-
-      //start of avatar reply container
-      let avatarReplyContainer = document.createElement("div");
-      avatarReplyContainer.classList.add("avatar-reply-container");
-
-      avatarReplyContainer.append(...getAvatarReplyContainerContent(reply));
-      // end of avatar reply container
-
-      // start of tweet-title container
-      let tweetTitle = document.createElement("div");
-      tweetTitle.classList.add("tweet-title");
-
-      // start of title content container
-      let titleContent = document.createElement("div");
-      titleContent.classList.add("title-content");
-
-      // start of p container
-      let tweetHead = document.createElement("p");
-      tweetHead.innerText = reply.username + " ";
-
-      let avatarAccount = document.createElement("span");
-      avatarAccount.classList.add("avatar-account", "twitter-gray");
-      avatarAccount.innerText = reply.handle + " ";
-
-      let dot = document.createElement("span");
-      dot.classList.add("dot");
-
-      let date = document.createElement("span");
-      date.classList.add("twitter-gray");
-      date.innerText = " " + reply.date;
-
-      tweetHead.append(avatarAccount, dot, date);
-      // end of p container
-
-      // start of menuContainer
-      let menuContainer = document.createElement("p");
-      menuContainer.classList.add("twitter-gray");
-
-      let menu = document.createElement("i");
-      menu.classList.add("fa-solid", "fa-ellipsis", "tweet-menu");
-
-      menuContainer.append(menu);
-      // end of menuContainer
-
-      titleContent.append(tweetHead, menuContainer);
-      // end of title content container
-
-      // start of reply to
-      let account = document.createElement("p");
-      account.classList.add("avatar-account", "twitter-gray");
-
-      account.innerHTML = `replying to <a href="#" class="twitter-blue">${reply.replyTo}</a>`;
-      // end of reply to
-
-      let replyTweetMessage = document.createElement("p");
-      replyTweetMessage.classList.add("reply-tweet-message");
-      replyTweetMessage.innerText = reply.tweetText;
-
-      // start of reply tweet footer
-      let replyFooter = document.createElement("div");
-      replyFooter.classList.add("tweet-footer-reply", "twitter-gray");
-
-      let commentIcon = document.createElement("i");
-      commentIcon.classList.add("fa-regular", "fa-comment-dots");
-
-      let likeIcon = document.createElement("i");
-      likeIcon.classList.add("fa-solid", "fa-heart");
-
-      let retweetIcon = document.createElement("i");
-      retweetIcon.classList.add("fa-solid", "fa-retweet");
-
-      replyFooter.append(commentIcon, likeIcon, retweetIcon);
-      // end of reply tweet footer
-
-      tweetTitle.append(titleContent, account, replyTweetMessage, replyFooter);
-      // end of tweet title
-
-      tweetsReplyContainer.append(avatarReplyContainer, tweetTitle);
-      repliesArray.push(tweetsReplyContainer);
-    }
-  }
-  return repliesArray;
-}
-
-function getAvatarReplyContainerContent(reply) {
-  let pipeArray = [];
-
-  // every element needed
-  let profilePic = document.createElement("img");
-  profilePic.classList.add("profile-pic");
-  profilePic.src = reply.profilePic;
-  profilePic.alt = "avatar tweet";
-
-  let space = document.createElement("span");
-  space.classList.add("space");
-
-  let pipe = document.createElement("span");
-  pipe.classList.add("pipe");
-
-  let topPipe = document.createElement("span");
-  topPipe.classList.add("top-pipe");
-
-  let topEndPipe = document.createElement("span");
-  topEndPipe.classList.add("top-pipe-end-reply");
-
-  if (reply.replyCase === 1) {
-    pipeArray.push(space, profilePic, pipe);
-  }
-  if (reply.replyCase === 2) {
-    pipeArray.push(topPipe, profilePic, pipe);
-  }
-  if (reply.replyCase === 3) {
-    pipeArray.push(topEndPipe, profilePic);
-  }
-  if (reply.replyCase === 4) {
-    pipeArray.push(space, profilePic);
-  }
-  return pipeArray;
-}
-
-function render() {
-  document.getElementsByClassName("tweet-feed")[0].append(...getFeedHtml());
+export function render() {
+  tweetFeed.replaceChildren();
+  tweetFeed.append(...getFeedHtml());
 }
 
 render();
