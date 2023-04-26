@@ -6,9 +6,10 @@ import {
 import { render } from "../index.js";
 import { setLocalStorage, getLocalStorageData } from "./localStorage.js";
 import { v4 as uuidv4 } from "https://jspm.dev/uuid";
-let myData = getLocalStorageData();
+let myData = [];
 
 export function deleteTweet(tweetUuid, isReplyParam) {
+  myData = getLocalStorageData();
   if (isReplyParam === "false") {
     const targetTweetObj = getTweetObject(tweetUuid, myData);
     myData.splice(
@@ -85,7 +86,7 @@ export function setLikeReply(tweetUuid, isReply, iconType) {
   let currentTargetObj = "";
   let isIcon = "";
   let icon = "";
-
+  myData = getLocalStorageData();
   if (iconType === "like") {
     isIcon = "isLiked";
     icon = "likes";

@@ -3,7 +3,7 @@ import { getFeedHtml } from "/libraries/feed.js";
 import {
   getTweetObject,
   getTweetRepliesObject,
-} from "/libraries/TweetObject.js";
+} from "/libraries/tweetObject.js";
 import {
   deleteTweet,
   editTweet,
