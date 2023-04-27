@@ -1,7 +1,7 @@
 import { tweetsData } from "../data.js";
 
 export function setLocalStorage(tweets) {
-  if (window.localStorage.length === 0) {
+  if (localStorage.getItem("tweetsData") === null) {
     localStorage.setItem("tweetsData", JSON.stringify(tweetsData));
   } else {
     localStorage.clear();
@@ -15,7 +15,7 @@ export function getLocalStorageData() {
 }
 
 export function initLocalStorage(){
-  if (window.localStorage.length === 0) {
+  if (localStorage.getItem("tweetsData") === null) {
     localStorage.setItem("tweetsData", JSON.stringify(tweetsData));
   }
 }
