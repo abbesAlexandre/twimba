@@ -24,14 +24,13 @@ export function deleteTweet(tweetUuid, isReplyParam) {
 }
 
 export function editTweet(tweetUuid, isReply) {
+  myData = getLocalStorageData();
   if (isReply === "false") {
     const targetTweetObj = getTweetObject(tweetUuid, myData);
-    targetTweetObj.tweetText =
-      document.getElementsByClassName("message")[0].innerText;
+    targetTweetObj.tweetText = document.getElementsByClassName("message")[0].innerText;
   } else {
     const targetTweetRepliesObject = getTweetRepliesObject(tweetUuid, myData);
-    targetTweetRepliesObject.tweetText =
-      document.getElementsByClassName("message")[0].innerText;
+    targetTweetRepliesObject.tweetText = document.getElementsByClassName("message")[0].innerText;
   }
   setLocalStorage(myData);
 }
