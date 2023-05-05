@@ -2,208 +2,110 @@ import { getLocalStorageData } from "./localStorage.js";
 import { getTweetObject, getTweetRepliesObject } from "./tweetObject.js";
 
 export function renderModal(modal, tweetUuid, isReply) {
-  let ModalContainer = document.createElement("div");
+  let feedHtml = "";
 
   switch (modal) {
     case "modal":
-      ModalContainer.classList.add("modal");
-
-      let menu = document.createElement("ul");
-      menu.classList.add("menu");
-
-      let editTweet = document.createElement("li");
-      editTweet.classList.add("edit");
-      editTweet.innerText = "Edit Tweet";
-      editTweet.dataset.menu = tweetUuid;
-      editTweet.dataset.isReply = isReply;
-
-      let editTweetIcon = document.createElement("i");
-      editTweetIcon.classList.add("fa-solid", "fa-pen-to-square", "fa-xs");
-
-      editTweet.append(editTweetIcon);
-
-      let deleteTweet = document.createElement("li");
-      deleteTweet.classList.add("delete");
-      deleteTweet.innerText = "Delete Tweet";
-      deleteTweet.dataset.menu = tweetUuid;
-      deleteTweet.dataset.isReply = isReply;
-
-      let deleteTweetIcon = document.createElement("i");
-      deleteTweetIcon.classList.add("fa-solid", "fa-delete-left", "fa-xs");
-
-      deleteTweet.append(deleteTweetIcon);
-
-      let replyTweet = document.createElement("li");
-      replyTweet.classList.add("reply");
-      replyTweet.innerText = "Reply Tweet";
-      replyTweet.dataset.menu = tweetUuid;
-      replyTweet.dataset.isReply = isReply;
-
-      let replyTweetIcon = document.createElement("i");
-      replyTweetIcon.classList.add("fa-solid", "fa-reply", "fa-xs");
-
-      replyTweet.append(replyTweetIcon);
-
-      menu.append(editTweet, deleteTweet, replyTweet);
-
-      ModalContainer.appendChild(menu);
+      feedHtml += `<div class="modal show">
+        <ul class="menu">
+          <li class="edit" data-menu=${tweetUuid} data-is-reply=${isReply}>
+            Edit Tweet 
+            <i class="fa-solid fa-pen-to-square fa-xs"></i>
+          </li>
+          <li class="delete" data-menu=${tweetUuid} data-is-reply=${isReply}>
+            Delete Tweet 
+            <i class="fa-solid fa-delete-left fa-xs"></i>
+          </li>
+          <li class="reply" data-menu=${tweetUuid} data-is-reply=${isReply}>
+            Reply Tweet 
+            <i class="fa-solid fa-pen-to-square fa-xs"></i>
+          </li>
+        </ul>
+      </div>
+      `;
       break;
     case "delete-modal":
-      ModalContainer.classList.add("delete-modal");
-
-      let deleteMessage = document.createElement("h4");
-      deleteMessage.innerText = "Are you sure you want to delete this tweet ?";
-
-      let answerContainer = document.createElement("div");
-      answerContainer.classList.add("answer-container");
-
-      let yesBtn = document.createElement("button");
-      yesBtn.id = "yes";
-      yesBtn.classList.add("twitter-background-blue");
-      yesBtn.innerText = "Yes";
-      yesBtn.dataset.tweetUuid = tweetUuid;
-      yesBtn.dataset.isReply = isReply;
-
-      let noBtn = document.createElement("button");
-      noBtn.id = "no";
-      noBtn.classList.add("twitter-background-blue");
-      noBtn.innerText = "No";
-
-      answerContainer.append(yesBtn, noBtn);
-
-      ModalContainer.append(deleteMessage, answerContainer);
+      feedHtml += `<div class="delete-modal show">
+      <h4>Are you sure you want to delete this tweet ?</h4>
+      <div class="answer-container">
+        <button id="yes" class="twitter-background-blue" data-tweet-uuid=${tweetUuid} data-is-reply=${isReply}>Yes</button>
+        <button id="no" class="twitter-background-blue">No</button>
+      </div>
+    </div>
+    `;
       break;
     default:
-      ModalContainer.classList.add("your-reply-container", "edit-modal");
-
+      let isReplyToFeed = "";
+      let isReplyFeed = "";
       let myTweet = "";
-      let avatarAccountBis = "";
-      let replyTarget = "";
       let myData = getLocalStorageData();
+
+      let contentEditable = true;
+      let buttonText = "Reply";
+      let buttonId = "reply-btn"
+
       if (isReply === "true") {
         myTweet = getTweetRepliesObject(tweetUuid, myData);
-        avatarAccountBis = document.createElement("p");
-        avatarAccountBis.classList.add("avatar-account", "twitter-gray");
-        avatarAccountBis.innerText = "Replying to";
-
-        replyTarget = document.createElement("a");
-        replyTarget.href = "#";
-        replyTarget.classList.add("twitter-blue");
-        replyTarget.innerText = myTweet.replyTo;
+        isReplyToFeed += `<p class="avatar-account twitter-gray">Replying to <a class="twitter-blue">${getTweetRepliesObject(tweetUuid, myData).replyTo}</a></p>"`
       } else {
         myTweet = getTweetObject(tweetUuid, myData);
       }
 
-      let close = document.createElement("span");
-      close.classList.add("fa-solid", "fa-xmark", "fa-lg", "close");
-
-      // start of tweets reply container
-      let tweetsReplyContainer = document.createElement("div");
-      tweetsReplyContainer.classList.add("tweets-reply-container");
-
-      let avatarReplyContainer = document.createElement("div");
-      avatarReplyContainer.classList.add("avatar-reply-container");
-
-      let space = document.createElement("space");
-      space.classList.add("space");
-
-      let profilePic = document.createElement("img");
-      profilePic.alt = "avatar";
-      profilePic.classList.add("profile-pic");
-      profilePic.src = myTweet.profilePic;
-
-      let pipe = document.createElement("span");
-      pipe.classList.add("pipe");
-
-      avatarReplyContainer.append(space, profilePic, pipe);
-
-      // start of tweet title
-      let tweetTitle = document.createElement("div");
-      tweetTitle.classList.add("tweet-title");
-
-      let titleContent = document.createElement("div");
-      titleContent.classList.add("title-content");
-
-      let userInfos = document.createElement("p");
-      userInfos.innerText = myTweet.username;
-
-      let avatarAccount = document.createElement("span");
-      avatarAccount.classList.add("avatar-account", "twitter-gray");
-      avatarAccount.innerText = myTweet.handle;
-
-      let dot = document.createElement("span");
-      dot.classList.add("dot");
-
-      let tweetDate = document.createElement("span");
-      tweetDate.classList.add("date");
-      tweetDate.innerText = myTweet.date;
-
-      userInfos.append(avatarAccount, dot, tweetDate);
-      titleContent.append(userInfos);
-
-      let myTweetText = document.createElement("p");
-      myTweetText.classList.add("message");
-      myTweetText.id = "message";
-      myTweetText.innerText = myTweet.tweetText;
-      if (modal === "edit") {
-        myTweetText.contentEditable = true;
-      }
-
-      tweetTitle.append(titleContent, myTweetText);
-      if (avatarAccountBis != "") {
-        tweetTitle.append(avatarAccountBis, replyTarget);
-      }
-      tweetsReplyContainer.append(avatarReplyContainer, tweetTitle);
-
-      let replyBtnContainer = document.createElement("div");
-      replyBtnContainer.classList.add("reply-btn-container");
-
-      let replyBtn = document.createElement("button");
-      replyBtn.id = "edit-btn";
-      replyBtn.innerText = "Edit";
-      replyBtn.dataset.uuid = tweetUuid;
-      replyBtn.dataset.isReply = isReply;
-      replyBtn.disabled = true;
-
-      ModalContainer.append(close, tweetsReplyContainer);
       if (modal === "reply") {
-        replyBtn.innerText = "Reply";
-        replyBtn.id = "reply-btn";
-
-        let replyContainer = document.createElement("div");
-        replyContainer.classList.add("reply-container");
-
-        let replyAvatar = document.createElement("div");
-        replyAvatar.classList.add("reply-avatar");
-
-        let topPipe = document.createElement("span");
-        topPipe.classList.add("top-pipe");
-
-        let replyProfilePic = document.createElement("img");
-        replyProfilePic.src = "images/scrimbalogo.png";
-        replyProfilePic.classList.add("profile-pic");
-
-        replyAvatar.append(topPipe, replyProfilePic);
-
-        let yourReply = document.createElement("textarea");
-        yourReply.classList.add("your-reply");
-        yourReply.id = "tweet-reply";
-        yourReply.placeholder = "Tweet your reply";
-        yourReply.maxLength = 75;
-
-        replyContainer.append(replyAvatar, yourReply);
-        ModalContainer.append(replyContainer);
+        contentEditable = false;
+        buttonText = "Reply";
+        buttonId = "reply-btn";
+        isReplyFeed = `<div class="reply-container">
+          <div class="reply-avatar">
+            <span class="top-pipe"></span>
+            <img alt="avatar" class="profile-pic" src="images/scrimbalogo.png" />
+          </div>
+          <textarea class="your-reply" id="tweet-reply" placeholder="Tweet your reply" maxlength="75"></textarea>
+        </div>
+        `
+      }else{
+        buttonText = "Edit";
+        buttonId = "edit-btn";
       }
-      replyBtnContainer.append(replyBtn);
-      ModalContainer.append(replyBtnContainer);
+
+      feedHtml += `<div class="your-reply-container edit-modal show-flex">
+      <span class="fa-solid fa-xmark fa-lg close"></span>
+      <div class="tweets-reply-container">
+        <div class="avatar-reply-container">
+          <span class="space"></span>
+          <img alt="avatar" class="profile-pic" src=${myTweet.profilePic} />
+          <span class="pipe"></span>
+        </div>
+        <div class="tweet-title">
+          <div class="title-content">
+            <p>
+              ${myTweet.username} 
+              <span class="avatar-account twitter-gray">${myTweet.handle}</span>
+              <span class="dot"></span>
+              <span class="date">${myTweet.date}</span>
+            </p>
+          </div>
+          <p class="message" id="message" contenteditable=${contentEditable}>${myTweet.tweetText}</p>
+          ${isReplyToFeed}
+        </div>
+        </div>
+        ${isReplyFeed}
+        <div class="reply-btn-container">
+          <button 
+            id=${buttonId}
+            data-uuid =${tweetUuid}
+            data-is-reply=${isReply}
+            disabled
+          >
+          ${buttonText}
+          </button>   
+        </div>
+      </div>
+    </div>
+    `;
   }
 
-  if (modal === "edit" || modal === "reply") {
-    ModalContainer.classList.add("show-flex");
-  } else {
-    ModalContainer.classList.add("show");
-  }
-  document.getElementsByClassName("tweet-feed")[0].append(ModalContainer);
+  document.getElementsByClassName("tweet-feed")[0].innerHTML += feedHtml;
 }
 
 export function removeModal(modalClass) {

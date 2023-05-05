@@ -230,7 +230,7 @@ document.addEventListener("click", function (e) {
 
 export function render() {
   tweetFeed.replaceChildren();
-  tweetFeed.append(...getFeedHtml());
+  tweetFeed.innerHTML = getFeedHtml();
 }
 
 render();
