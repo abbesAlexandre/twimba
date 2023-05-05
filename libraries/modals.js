@@ -46,7 +46,7 @@ export function renderModal(modal, tweetUuid, isReply) {
 
       if (isReply === "true") {
         myTweet = getTweetRepliesObject(tweetUuid, myData);
-        isReplyToFeed += `<p class="avatar-account twitter-gray">Replying to <a class="twitter-blue">${getTweetRepliesObject(tweetUuid, myData).replyTo}</a></p>"`
+        isReplyToFeed = `<p class="avatar-account twitter-gray">Replying to <a class="twitter-blue">${getTweetRepliesObject(tweetUuid, myData).replyTo}</a></p>"`
       } else {
         myTweet = getTweetObject(tweetUuid, myData);
       }
